@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// private routes.
+
+// public routes.
+Route::post('/user', [\App\Http\Controllers\Api\V1\UserController::class, 'store']);

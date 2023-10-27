@@ -1,23 +1,38 @@
 <template>
+    {{user}}
+    {{token}}
     <router-view></router-view>
 </template>
 
 <script>
-import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+
+import {useUserStore} from "@/store/userStore.js";
 
 export default {
-    setup() {
-        const route = useRoute() // Use useRoute to access the current route
-        const router = useRouter() // Use useRouter to access the router
+    data(){
+        return [
 
-        const navigateToDashboard = () => {
-            router.push({ name: 'Dashboard' })
+        ];
+    },
+    computed: {
+        user(){
+            return useUserStore().user;
+        },
+        token(){
+            return useUserStore().token;
         }
-
-        return {
-            navigateToDashboard
-        }
+    },
+    mounted() {
+        console.log(this.token);
+        axios.post('/api/user', {
+            user: this.user,
+            token: this.token,
+        }).then(response => {
+            useUserStore().setUser(response.data.user);
+            useUserStore().setToken(response.data.token);
+        }).catch(error => {
+            console.log(error);
+        });
     }
 }
 </script>
