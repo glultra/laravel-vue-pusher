@@ -22,3 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // public routes.
 Route::post('/user', [\App\Http\Controllers\Api\V1\UserController::class, 'store']);
+Route::post('/test', function (Request $request) {
+    event(new \App\Events\TestEvent('slaw'));
+    return 'success';
+})->middleware('auth:sanctum');

@@ -20,5 +20,16 @@ const router = createRouter({
 })
 
 // Set middlewares.
+// authMiddleware.js
+function authMiddleware(to, from, next) {
+    const isAuthenticated = localStorage.getItem('token'); // Replace with your authentication check logic
+    if (to.meta.requireAuth && !isAuthenticated) {
+        next('/login');
+    } else {
+        next();
+    }
+}
+
+router.beforeEach(authMiddleware);
 
 export default router;
